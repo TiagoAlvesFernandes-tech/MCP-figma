@@ -1,6 +1,20 @@
+# Figma-t***
+
+## ✅ What i have now.
+
+1.  **Figma plan & Dev Mode** (Professional/Organization/Enterprise "Dev or Full" seat) and the **Figma desktop app**.
+2.  Enabled **Figma Dev Mode MCP server** (local or remote endpoint).
+3.  ✅ **Git repository initialized** and pushed to GitHub
+4.  ✅ **GitHub Pages enabled** with automatic deployment
+5.  ✅ **First landing page generated** (AI Workshop site)
+
+***
+
+## 🚧 What i still need to do.on Pipeline
+
+🌐 **Live Site:** https://tiagoalvesfernandes-tech.github.io/MCP-figma/
+
 ## TL;DR architecture
-
-
 
 *   **Figma MCP** exposes structured design context (frames, components, variables, Code Connect mapping) to your AI agent so it can generate code consistent with the template.
 *   **Preview Deploys** give designers a live URL for each change; when approved, merge to main → **production**.
