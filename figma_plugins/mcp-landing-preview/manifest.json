@@ -1,0 +1,23 @@
+{
+  "name": "MCP Landing Preview",
+  "id": "1557857329666631542",
+  "api": "1.0.0",
+  "main": "code.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figma"
+  ],
+  "ui": {
+    "file": "ui.html",
+    "width": 500,
+    "height": 700
+  },
+  "networkAccess": {
+    "allowedDomains": [
+      "https://*.github.io",
+      "https://api.github.com"
+    ],
+    "reasoning": "This plugin previews GitHub Pages sites and interacts with GitHub API for approvals"
+  }
+}
