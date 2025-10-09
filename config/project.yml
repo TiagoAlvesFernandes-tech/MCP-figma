@@ -1,0 +1,47 @@
+# Figma-to-Production Platform Configuration
+
+figma:
+  # MCP Server endpoint - usually localhost:3845 for local development
+  mcp_endpoint: "localhost:3845"
+  # Default frame to use if none specified
+  default_frame: null
+  # Auto-validate Figma connection before generation
+  validate_connection: true
+
+deployment:
+  # Target platform: azure-swa, github-pages, vercel, netlify
+  platform: "azure-swa"
+  # Azure resource group name
+  resource_group: "figma-sites-rg"
+  # Auto-deploy on successful generation
+  auto_deploy: true
+  # Environment for deployment
+  environment: "production"
+
+site_generation:
+  # Base directory for generated sites
+  target_dir: "sites/"
+  # Create backup when overwriting existing site
+  backup_on_overwrite: true
+  # Validate all required files before considering complete
+  validate_before_deploy: true
+  # Default template to use
+  default_template: "landing-page"
+  # Auto-download assets during generation
+  auto_download_assets: true
+
+# Project metadata
+project:
+  name: "Figma MCP Sites"
+  version: "2.0.0"
+  author: "Tiago Fernandes"
+  repository: "https://github.com/TiagoAlvesFernandes-tech/MCP-figma"
+
+# Development settings
+dev:
+  # Enable verbose logging
+  verbose: true
+  # Port for local preview server
+  preview_port: 3000
+  # Auto-open browser on preview
+  auto_open_browser: true
