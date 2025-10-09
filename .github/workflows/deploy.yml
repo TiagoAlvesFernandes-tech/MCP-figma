@@ -36,12 +36,33 @@ jobs:
           # Create a _site directory for GitHub Pages
           mkdir -p _site
           
-          # Copy all site_* directories to _site
+          # Copy all sites from the new sites/ directory structure
+          if [ -d "sites" ]; then
+            for site in sites/*/; do
+              if [ -d "$site" ]; then
+                site_name=$(basename "$site")
+                echo "Copying sites/$site_name to _site/$site_name"
+                cp -r "$site" "_site/$site_name"
+                
+                # Remove generated files that shouldn't be deployed
+                rm -f "_site/$site_name/INSTRUCTIONS.md"
+                rm -f "_site/$site_name/mcp-prompt.txt"
+                rm -f "_site/$site_name/site-config.json"
+                rm -f "_site/$site_name/dev-server.py"
+                rm -f "_site/$site_name/VALIDATION_REPORT.md"
+                rm -f "_site/$site_name/deploy-info.json"
+                
+                echo "✅ Site $site_name prepared for deployment"
+              fi
+            done
+          fi
+          
+          # Also copy legacy site_* directories if they exist (for backward compatibility)
           for site in site_*/; do
             if [ -d "$site" ]; then
               site_name="${site%/}"
               site_name="${site_name#site_}"
-              echo "Copying $site to _site/$site_name"
+              echo "Copying legacy $site to _site/$site_name"
               cp -r "$site" "_site/$site_name"
             fi
           done
@@ -119,19 +140,38 @@ jobs:
                       font-size: 0.85rem;
                       margin-left: 0.5rem;
                   }
+                  .badge-legacy {
+                      background: #6c757d;
+                  }
+                  .badge-ready {
+                      background: #28a745;
+                  }
+                  .badge-generating {
+                      background: #007bff;
+                      animation: pulse 2s infinite;
+                  }
+                  @keyframes pulse {
+                      0% { opacity: 1; }
+                      50% { opacity: 0.7; }
+                      100% { opacity: 1; }
+                  }
               </style>
           </head>
           <body>
               <div class="container">
-                  <h1>🎨 Figma-to-Production</h1>
-                  <p class="subtitle">Landing pages generated from Figma designs via MCP</p>
+                  <h1>🚀 MCP Figma Platform v2.0</h1>
+                  <p class="subtitle">Professional landing pages generated from Figma designs using AI and automation</p>
                   
                   <ul class="sites-list" id="sites-list">
                       <!-- Sites will be inserted here -->
                   </ul>
                   
                   <div class="footer">
-                      <p>Generated from Figma designs • Powered by MCP</p>
+                      <p>Generated from Figma designs • Powered by <strong>MCP Figma v2.0</strong> • Total sites: <span id="site-count">${sites.length}</span></p>
+                      <p style="margin-top: 0.5rem; font-size: 0.8rem;">
+                          🔧 Current: GitHub Pages | 🎯 Next: Azure Static Web Apps | 
+                          <a href="https://github.com/tiagofer/MCP-figma" target="_blank" style="color: #667eea; text-decoration: none;">View on GitHub</a>
+                      </p>
                   </div>
               </div>
               
@@ -142,6 +182,35 @@ jobs:
           
           # Add each site to the list
           first=true
+          
+          # Add sites from the new sites/ directory structure
+          if [ -d "sites" ]; then
+            for site in sites/*/; do
+              if [ -d "$site" ]; then
+                site_name=$(basename "$site")
+                if [ "$first" = true ]; then
+                  first=false
+                else
+                  echo "," >> _site/index.html
+                fi
+                
+                # Try to read site metadata if available
+                site_title="$site_name"
+                site_status="active"
+                if [ -f "$site/site-config.json" ]; then
+                  # Extract title from config if available (basic parsing)
+                  if command -v jq >/dev/null 2>&1; then
+                    site_title=$(jq -r '.name // "'$site_name'"' "$site/site-config.json" 2>/dev/null || echo "$site_name")
+                    site_status=$(jq -r '.status // "active"' "$site/site-config.json" 2>/dev/null || echo "active")
+                  fi
+                fi
+                
+                echo "            { name: '$site_name', title: '$site_title', path: '$site_name/', status: '$site_status' }" >> _site/index.html
+              fi
+            done
+          fi
+          
+          # Add legacy site_* directories for backward compatibility
           for site in site_*/; do
             if [ -d "$site" ]; then
               site_name="${site%/}"
@@ -151,7 +220,7 @@ jobs:
               else
                 echo "," >> _site/index.html
               fi
-              echo "            { name: '$site_name', path: '$site_name/' }" >> _site/index.html
+              echo "            { name: '$site_name', title: '$site_name', path: '$site_name/', status: 'legacy' }" >> _site/index.html
             fi
           done
           
@@ -162,18 +231,42 @@ jobs:
                   sites.forEach(site => {
                       const li = document.createElement('li');
                       li.className = 'site-item';
-                      const formattedName = site.name
+                      
+                      // Use title if available, otherwise format the name
+                      const displayName = site.title || site.name
                           .split('-')
                           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                           .join(' ');
+                      
+                      // Status-based styling and badges
+                      let badgeText = 'View Site';
+                      let badgeClass = 'badge';
+                      
+                      if (site.status === 'legacy') {
+                          badgeText = 'Legacy';
+                          badgeClass = 'badge badge-legacy';
+                      } else if (site.status === 'validated') {
+                          badgeText = '✅ Ready';
+                          badgeClass = 'badge badge-ready';
+                      } else if (site.status === 'generating') {
+                          badgeText = '🔄 Generating';
+                          badgeClass = 'badge badge-generating';
+                      }
+                      
                       li.innerHTML = `
                           <a href="${site.path}" class="site-link">
-                              ${formattedName}
-                              <span class="badge">View Site</span>
+                              ${displayName}
+                              <span class="${badgeClass}">${badgeText}</span>
                           </a>
                       `;
                       sitesList.appendChild(li);
                   });
+                  
+                  // Update the site count in footer
+                  const siteCountElement = document.getElementById('site-count');
+                  if (siteCountElement) {
+                      siteCountElement.textContent = sites.length;
+                  }
               </script>
           </body>
           </html>
