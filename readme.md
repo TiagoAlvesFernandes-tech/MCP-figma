@@ -1,75 +1,227 @@
-# 🚀 Figma-to-Production Platform
+# 🚀 Plataforma Figma-para-Produção
 
-Generate professional websites directly from Figma designs using AI and deploy automatically to Azure Static Web Apps.
+Gere sites profissionais diretamente de designs do Figma usando IA e faça deploy automático para Azure Static Web Apps e GitHub Pages.
 
-## ⚡ Quick Start
+## ⚡ Início Rápido
 
-1. **Clone & Setup**
+### 1. **Configuração Inicial**
+
+1. **Clone o repositório e navegue até a pasta:**
    ```bash
    git clone https://github.com/TiagoAlvesFernandes-tech/MCP-figma.git
    cd MCP-figma
+   ```
+
+2. **Execute o script de configuração:**
+   ```bash
+   # Caminhe para a pasta raiz do projeto (se não estiver)
+   cd MCP-figma
+   
+   # Execute a configuração inicial
    ./scripts/setup.sh
    ```
 
-2. **Generate Your First Site**
+### 2. **Gere Seu Primeiro Site**
+
+1. **Execute o gerador de sites:**
    ```bash
-   ./scripts/generate-site.sh "my-awesome-site"
-   # Follow the MCP prompt instructions
-   ./scripts/post-generate.sh "my-awesome-site"
+   # Substitua "meu-site-incrivel" pelo nome desejado
+   ./scripts/generate-site.sh "meu-site-incrivel"
    ```
 
-3. **Deploy Automatically**
+2. **Siga as instruções do prompt MCP que aparecerem no terminal**
+
+3. **Execute a validação pós-geração:**
    ```bash
-   git add . && git commit -m "Add new site" && git push
-   # GitHub Actions will deploy to Azure Static Web Apps
+   # Valide e otimize o site gerado
+   ./scripts/post-generate.sh "meu-site-incrivel"
    ```
 
-## 🏗️ Project Structure
+### 3. **Deploy Automático**
+
+1. **Adicione os arquivos ao Git:**
+   ```bash
+   git add .
+   git commit -m "Adicionar novo site: meu-site-incrivel"
+   git push
+   ```
+
+2. **O GitHub Actions fará o deploy automaticamente!**
+   - Acesse: `https://seu-usuario.github.io/MCP-figma/sites/meu-site-incrivel/`
+
+## 🏗️ Estrutura do Projeto
 
 ```
-├── sites/                    # 🌐 Generated websites
-│   ├── area-landing/        #   Migrated: Area landing page
-│   ├── ai-llm-workshop/     #   Migrated: AI Workshop site
-│   └── your-site/           #   Your new generated sites
-├── scripts/                 # 🔧 Automation scripts
-│   ├── setup.sh            #   Initial setup
-│   ├── generate-site.sh    #   Site generation v2.0
-│   └── post-generate.sh    #   Post-generation validation
-├── config/                  # ⚙️  Configuration files
-├── templates/               # 📄 Site templates
-└── .github/workflows/       # 🚀 CI/CD automation
+├── sites/                    # 🌐 Sites gerados
+│   ├── area-landing/        #   ✅ Página de landing da Area
+│   ├── ai-llm-workshop/     #   ✅ Site do Workshop de IA
+│   ├── ai-llm-workshop-v2/  #   ✅ Versão 2.0 do Workshop
+│   └── seu-site/            #   🆕 Seus novos sites aqui
+├── scripts/                 # 🔧 Scripts de automação
+│   ├── setup.sh            #   Configuração inicial
+│   ├── generate-site.sh    #   Geração de sites v2.0
+│   └── post-generate.sh    #   Validação pós-geração
+├── config/                  # ⚙️  Arquivos de configuração
+│   └── project.yml         #   Configuração do projeto
+├── .github/workflows/       # 🚀 Automação CI/CD
+│   └── deploy.yml          #   Deploy para GitHub Pages
+└── .gitignore              # 🚫 Arquivos ignorados pelo Git
 ```
 
-## 🎯 Features
+## 🎯 Funcionalidades
 
-- **🎨 Figma Integration**: Direct connection to Figma Dev Mode
-- **🤖 AI Generation**: MCP agent creates semantic HTML/CSS/JS
-- **📱 Responsive**: Mobile-first responsive design
-- **♿ Accessible**: WCAG compliant with semantic HTML
-- **⚡ Performance**: Optimized CSS custom properties and vanilla JS
-- **🚀 Auto Deploy**: GitHub Actions → Azure Static Web Apps
-- **🔧 Professional**: Production-ready code generation
+- **🎨 Integração com Figma**: Conexão direta com o Figma Dev Mode
+- **🤖 Geração por IA**: Agente MCP cria HTML/CSS/JS semântico
+- **📱 Responsivo**: Design mobile-first responsivo
+- **♿ Acessível**: Compatível com WCAG e HTML semântico
+- **⚡ Performance**: CSS custom properties otimizado e JavaScript vanilla
+- **🚀 Deploy Automático**: GitHub Actions → GitHub Pages
+- **🔧 Profissional**: Geração de código pronto para produção
 
-## 🔧 Requirements
+## 🔧 Requisitos
 
-- **Figma**: Dev Mode access and MCP server setup
-- **Node.js**: 18+ for tooling
-- **Azure**: Static Web Apps for hosting
-- **GitHub**: Repository with Actions enabled
+- **Figma**: Acesso ao Dev Mode e configuração do servidor MCP
+- **Node.js**: Versão 18+ para ferramentas
+- **GitHub**: Repositório com Actions habilitado
+- **Git**: Para controle de versão
 
-## 🌐 Live Examples
+## 🌐 Exemplos Ao Vivo
 
-- **🆕 Area Landing Page**: https://tiagoalvesfernandes-tech.github.io/MCP-figma/sites/area-landing/
-- **AI Workshop**: https://tiagoalvesfernandes-tech.github.io/MCP-figma/sites/ai-llm-workshop/
+- **🆕 Página de Landing Area**: https://tiagoalvesfernandes-tech.github.io/MCP-figma/sites/area-landing/
+- **Workshop de IA**: https://tiagoalvesfernandes-tech.github.io/MCP-figma/sites/ai-llm-workshop/
+- **Workshop de IA v2.0**: https://tiagoalvesfernandes-tech.github.io/MCP-figma/sites/ai-llm-workshop-v2/
 
-## 📖 Next Steps
+## � Passo a Passo Detalhado
 
-See [NEXT_STEPS.md](NEXT_STEPS.md) for the complete roadmap to transform this into a fully automated platform.
+### Primeira Utilização
 
-## 🤝 Contributing
+1. **Abra o terminal e navegue para onde quer clonar o projeto:**
+   ```bash
+   cd C:\Users\SeuUsuario\Desktop\Projetos
+   ```
 
-This is an open-source platform for Figma-to-production workflows. Contributions welcome!
+2. **Clone e entre na pasta:**
+   ```bash
+   git clone https://github.com/TiagoAlvesFernandes-tech/MCP-figma.git
+   cd MCP-figma
+   ```
+
+3. **Torne os scripts executáveis (Linux/Mac):**
+   ```bash
+   chmod +x scripts/*.sh
+   ```
+
+4. **Execute a configuração:**
+   ```bash
+   ./scripts/setup.sh
+   ```
+
+### Gerando um Novo Site
+
+1. **Caminhe para a pasta do projeto:**
+   ```bash
+   cd caminho/para/MCP-figma
+   ```
+
+2. **Execute o gerador:**
+   ```bash
+   ./scripts/generate-site.sh "nome-do-meu-site"
+   ```
+
+3. **O script criará a pasta:**
+   ```
+   sites/nome-do-meu-site/
+   ```
+
+4. **Siga as instruções que aparecerem no terminal**
+
+5. **Após a geração, valide o site:**
+   ```bash
+   ./scripts/post-generate.sh "nome-do-meu-site"
+   ```
+
+6. **Verifique se os arquivos foram criados:**
+   ```bash
+   ls -la sites/nome-do-meu-site/
+   ```
+
+### Fazendo Deploy
+
+1. **Verifique o status do Git:**
+   ```bash
+   git status
+   ```
+
+2. **Adicione todos os arquivos:**
+   ```bash
+   git add .
+   ```
+
+3. **Faça o commit:**
+   ```bash
+   git commit -m "feat: adicionar site nome-do-meu-site"
+   ```
+
+4. **Envie para o GitHub:**
+   ```bash
+   git push origin main
+   ```
+
+5. **Acompanhe o deploy no GitHub:**
+   - Vá para seu repositório no GitHub
+   - Clique na aba "Actions"
+   - Veja o progresso do deploy
+
+6. **Acesse seu site:**
+   ```
+   https://seu-usuario.github.io/MCP-figma/sites/nome-do-meu-site/
+   ```
+
+## 🛠️ Comandos Úteis
+
+```bash
+# Ver todos os sites gerados
+ls -la sites/
+
+# Executar servidor local para testar
+cd sites/nome-do-site
+python -m http.server 8000
+
+# Ver logs do Git
+git log --oneline
+
+# Ver diferenças antes do commit
+git diff
+
+# Desfazer último commit (mantendo arquivos)
+git reset --soft HEAD~1
+```
+
+## 📖 Próximos Passos
+
+Veja [NEXT_STEPS.md](NEXT_STEPS.md) para o roadmap completo para transformar isso em uma plataforma totalmente automatizada.
+
+## 🤝 Contribuindo
+
+Esta é uma plataforma open-source para workflows Figma-para-produção. Contribuições são bem-vindas!
+
+### Como Contribuir
+
+1. **Faça um fork do projeto**
+2. **Crie uma branch para sua feature:**
+   ```bash
+   git checkout -b feature/minha-nova-feature
+   ```
+3. **Faça commit das suas mudanças:**
+   ```bash
+   git commit -m "feat: adicionar nova feature incrível"
+   ```
+4. **Envie para sua branch:**
+   ```bash
+   git push origin feature/minha-nova-feature
+   ```
+5. **Abra um Pull Request**
 
 ---
 
-Built with ❤️ by [Tiago Fernandes](https://github.com/TiagoAlvesFernandes-tech)
+Construído com ❤️ por [Tiago Fernandes](https://github.com/TiagoAlvesFernandes-tech)
