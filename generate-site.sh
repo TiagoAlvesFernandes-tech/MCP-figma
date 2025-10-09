@@ -65,11 +65,13 @@ Read the selected Figma frame via MCP. Generate a semantic, accessible landing p
 4. **Responsiveness**: Mobile-first responsive design
 5. **Assets**: Note all image URLs from localhost:3845
 
-Save the files as:
-- index.html (in the current directory)
-- styles.css (in the current directory)  
-- script.js (in the current directory)
-- README.md (documentation)
+Generate and save the following files in the workspace root directory:
+- index.html 
+- styles.css
+- script.js
+- README.md
+
+(The script will automatically move them to ${site_dir}/ afterward)
 
 Map all Figma design tokens to CSS custom properties and add TODO comments where variables should be connected.
 PROMPT

@@ -3,7 +3,18 @@
 # Script to download images from Figma MCP localhost server
 # and update HTML to use local paths
 
-SITE_DIR="site_ai-llm-workshop"
+# Check if site directory argument is provided
+if [ $# -ne 1 ]; then
+    echo "❌ Error: Please specify the site directory"
+    echo "Usage: $0 <site_directory>"
+    echo "Example: $0 site_area-landing"
+    echo ""
+    echo "Available site directories:"
+    ls -d site_* 2>/dev/null || echo "  (no site directories found)"
+    exit 1
+fi
+
+SITE_DIR="$1"
 ASSETS_DIR="${SITE_DIR}/assets"
 HTML_FILE="${SITE_DIR}/index.html"
 HTML_BACKUP="${SITE_DIR}/index.html.backup"
@@ -11,11 +22,15 @@ HTML_BACKUP="${SITE_DIR}/index.html.backup"
 echo "=========================================="
 echo "  Figma Image Asset Downloader"
 echo "=========================================="
+echo "📁 Target site: $SITE_DIR"
 echo ""
 
 # Check if site directory exists
 if [ ! -d "$SITE_DIR" ]; then
     echo "❌ Error: Site directory not found: $SITE_DIR"
+    echo ""
+    echo "Available site directories:"
+    ls -d site_* 2>/dev/null || echo "  (no site directories found)"
     exit 1
 fi
 
