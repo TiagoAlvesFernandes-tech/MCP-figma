@@ -7,12 +7,15 @@
 3.  ✅ **Git repository initialized** and pushed to GitHub
 4.  ✅ **GitHub Pages enabled** with automatic deployment
 5.  ✅ **First landing page generated** (AI Workshop site)
+6.  ✅ **🆕 Area Landing Page deployed** - Complete workflow tested!
 
 ***
 
 ## 🚧 What i still need to do.on Pipeline
 
-🌐 **Live Site:** https://tiagoalvesfernandes-tech.github.io/MCP-figma/
+🌐 **Live Sites:** 
+- **Main Site:** https://tiagoalvesfernandes-tech.github.io/MCP-figma/
+- **🆕 Area Landing Page:** https://tiagoalvesfernandes-tech.github.io/MCP-figma/site_area-landing/
 
 ## TL;DR architecture
 
