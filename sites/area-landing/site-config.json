@@ -2,10 +2,11 @@
     "name": "area-landing",
     "created": "2025-10-09T10:30:00-03:00",
     "figma_frame": "area-landing-frame",
-    "status": "migrated",
+    "status": "validated",
     "version": "2.0",
     "generator": "figma-mcp-v2",
     "location": "/c/Users/tiago.fernades/Desktop/Estudo/MCP-figma/sites/area-landing",
     "migrated_from": "site_area-landing",
-    "migrated_at": "2025-10-09T10:30:00-03:00"
-,"validated_at": "2025-10-09T11:18:00-03:00","validated_at": "2025-10-09T11:18:22-03:00"}
+    "migrated_at": "2025-10-09T10:30:00-03:00",
+    "validated_at": "2025-10-09T11:18:22-03:00"
+}
