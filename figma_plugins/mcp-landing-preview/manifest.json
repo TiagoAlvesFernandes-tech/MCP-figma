@@ -6,12 +6,13 @@
   "capabilities": [],
   "enableProposedApi": false,
   "editorType": [
-    "figma"
+    "figma",
+    "dev"
   ],
   "ui": {
     "file": "ui.html",
-    "width": 500,
-    "height": 700
+    "width": "500",
+    "height": "700"
   },
   "networkAccess": {
     "allowedDomains": [
