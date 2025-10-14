@@ -1,6 +1,6 @@
 # 🚀 Plataforma Figma-para-Produção
 
-Gere sites profissionais diretamente de designs do Figma usando IA. Deploy flexível para qualquer plataforma de hospedagem.
+Gere sites profissionais diretamente de designs do Figma usando IA e faça deploy automático para Azure Static Web Apps e GitHub Pages.
 
 ## ⚡ Início Rápido
 
@@ -75,7 +75,7 @@ Gere sites profissionais diretamente de designs do Figma usando IA. Deploy flex�
 - **📱 Responsivo**: Design mobile-first responsivo
 - **♿ Acessível**: Compatível com WCAG e HTML semântico
 - **⚡ Performance**: CSS custom properties otimizado e JavaScript vanilla
-- **🚀 Deploy Flexível**: Pronto para qualquer plataforma de hospedagem
+- **🚀 Deploy Automático**: GitHub Actions → GitHub Pages
 - **🔧 Profissional**: Geração de código pronto para produção
 
 ## 🔧 Requisitos
@@ -85,13 +85,11 @@ Gere sites profissionais diretamente de designs do Figma usando IA. Deploy flex�
 - **GitHub**: Repositório com Actions habilitado
 - **Git**: Para controle de versão
 
-## 🌐 Sites Gerados
+## 🌐 Exemplos Ao Vivo
 
-- **🆕 Página de Landing Area**: `sites/area-landing/`
-- **Workshop de IA**: `sites/ai-llm-workshop/`
-- **Workshop de IA v2.0**: `sites/ai-llm-workshop-v2/`
-
-> 💡 **Dica**: Execute `python -m http.server 8000` dentro de qualquer pasta de site para testar localmente
+- **🆕 Página de Landing Area**: https://tiagoalvesfernandes-tech.github.io/MCP-figma/sites/area-landing/
+- **Workshop de IA**: https://tiagoalvesfernandes-tech.github.io/MCP-figma/sites/ai-llm-workshop/
+- **Workshop de IA v2.0**: https://tiagoalvesfernandes-tech.github.io/MCP-figma/sites/ai-llm-workshop-v2/
 
 ## � Passo a Passo Detalhado
 
@@ -174,11 +172,9 @@ Gere sites profissionais diretamente de designs do Figma usando IA. Deploy flex�
    - Clique na aba "Actions"
    - Veja o progresso do deploy
 
-6. **Teste seu site localmente:**
-   ```bash
-   cd sites/nome-do-meu-site
-   python -m http.server 8000
-   # Acesse: http://localhost:8000
+6. **Acesse seu site:**
+   ```
+   https://seu-usuario.github.io/MCP-figma/sites/nome-do-meu-site/
    ```
 
 ## 🛠️ Comandos Úteis
