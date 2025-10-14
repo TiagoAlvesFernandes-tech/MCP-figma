@@ -1,202 +1,231 @@
-# Figma-t***
+# 🚀 Plataforma Figma-para-Produção
 
-## ✅ What i have now.
+Gere sites profissionais diretamente de designs do Figma usando IA. Deploy flexível para qualquer plataforma de hospedagem.
 
-1.  **Figma plan & Dev Mode** (Professional/Organization/Enterprise "Dev or Full" seat) and the **Figma desktop app**.
-2.  Enabled **Figma Dev Mode MCP server** (local or remote endpoint).
-3.  ✅ **Git repository initialized** and pushed to GitHub
-4.  ✅ **GitHub Pages enabled** with automatic deployment
-5.  ✅ **First landing page generated** (AI Workshop site)
-6.  ✅ **🆕 Area Landing Page deployed** - Complete workflow tested!
+## ⚡ Início Rápido
 
-***
+### 1. **Configuração Inicial**
 
-## 🚧 What i still need to do.on Pipeline
+1. **Clone o repositório e navegue até a pasta:**
+   ```bash
+   git clone https://github.com/TiagoAlvesFernandes-tech/MCP-figma.git
+   cd MCP-figma
+   ```
 
-🌐 **Live Sites:** 
-- **Main Site:** https://tiagoalvesfernandes-tech.github.io/MCP-figma/
-- **🆕 Area Landing Page:** https://tiagoalvesfernandes-tech.github.io/MCP-figma/site_area-landing/
+2. **Execute o script de configuração:**
+   ```bash
+   # Caminhe para a pasta raiz do projeto (se não estiver)
+   cd MCP-figma
+   
+   # Execute a configuração inicial
+   ./scripts/setup.sh
+   ```
 
-## TL;DR architecture
+### 2. **Gere Seu Primeiro Site**
 
-*   **Figma MCP** exposes structured design context (frames, components, variables, Code Connect mapping) to your AI agent so it can generate code consistent with the template.
-*   **Preview Deploys** give designers a live URL for each change; when approved, merge to main → **production**.
+1. **Execute o gerador de sites:**
+   ```bash
+   # Substitua "meu-site-incrivel" pelo nome desejado
+   ./scripts/generate-site.sh "meu-site-incrivel"
+   ```
 
-***
+2. **Siga as instruções do prompt MCP que aparecerem no terminal**
 
-## What i have now.
+3. **Execute a validação pós-geração:**
+   ```bash
+   # Valide e otimize o site gerado
+   ./scripts/post-generate.sh "meu-site-incrivel"
+   ```
 
-1.  **Figma plan & Dev Mode** (Professional/Organization/Enterprise “Dev or Full” seat) and the **Figma desktop app**.
-2.  Enabled **Figma Dev Mode MCP server** (local or remote endpoint).
+### 3. **Deploy Automático**
 
-***
+1. **Adicione os arquivos ao Git:**
+   ```bash
+   git add .
+   git commit -m "Adicionar novo site: meu-site-incrivel"
+   git push
+   ```
 
-## What i still need to do.
+2. **O GitHub Actions fará o deploy automaticamente!**
+   - Acesse: `https://seu-usuario.github.io/MCP-figma/sites/meu-site-incrivel/`
 
+## 🏗️ Estrutura do Projeto
 
-### 4) Seed a repo and preview deploys
-
-Create a minimal repo for generated **HTML/CSS/JS** + build config:
-
-> Later will use vercel to publish sites and use this.
-**Vercel** (automatic Preview URLs per branch/PR; instant promotion on main):
-*   Connect GitHub repo → each PR gets a unique preview URL; merging to `main` publishes production.
-
-> For now, only needs to send the html to a branch in github.
-* **Github** Connect GitHub repo -> Setup GitHup Pages and action to build page.
-
-
-***
-
-### 5) Prompting the agent to generate the landing page
-
-With the Figma file open, select the root frame (e.g., “Landing Page”) and run a prompt in your MCP client:
-
-> **Prompt template**
->
-> “Read the selected Figma frame via MCP. Generate a semantic, accessible **single‑file** landing page (HTML + Tailwind CDN or vanilla CSS).
->
-> *   Map Figma variables/typography to CSS custom properties.
-> *   Export/inline assets (optimize for web).
-> *   Preserve section order (hero/features/testimonials/cta).
-> *   Output `index.html` + `styles.css` at `/site_name-of-design/`.
-> *   Each design will have a `/site_name-of-design/` folder.
-> *   Include TODO comments where design tokens map to variables.”
-
-This relies on **Figma MCP tools/resources** to fetch components/variables and produce code consistent with the design.
-
-***
-
-### 6) Auto‑publish a **Preview** on each generation
-
-Add (at least) one automation to show the designer how the page will look.
-
-***
-
-### 7) Let the designer review *inside Figma* (two options)
-
-**Option 1 — Figma “Reviewer” plugin (recommended):**\
-Build a lightweight Figma plugin that shows the Preview URL inside its UI and provides “Request edits” / “Approve” actions.
-
-*   A Figma plugin can host a custom HTML UI and call out to allowed domains (whitelist your preview host). The plugin community examples show manifests with `ui.html` and `networkAccess.allowedDomains` for external URLs.
-*   On “Request edits”, your plugin can send a message to your MCP server (or open a pre‑formatted task) with the designer’s notes; the agent applies changes and re‑deploys the preview.
-*   On “Approve”, your plugin can call your CI (or post back to your MCP server) to **merge** the PR to `main` → production deploy.
-
-**Option 2 — Link‑out review**\
-Just paste the Preview URL in the Figma file description/comments (or FigJam board). Netlify/Vercel both comment the PR with the URL; designers review in the browser.
-
-***
-
-### 9) Promote to production
-
-When the designer clicks **Approve** in your plugin (or in PR), your server merges to `main` → **Production Deployment** with instant rollback support if needed (Vercel) or atomic deploys (Netlify).
-
-***
-
-## Minimal snippets
-
-### A) Vercel preview (GitHub → automatic)
-
-`.github/workflows/vercel-preview.yml` (if you prefer an explicit action)
-
-```yaml
-name: Vercel Preview
-on:
-  pull_request:
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: amondnet/vercel-action@v25.2.0
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-comment: true
+```
+├── sites/                    # 🌐 Sites gerados
+│   ├── area-landing/        #   ✅ Página de landing da Area
+│   ├── ai-llm-workshop/     #   ✅ Site do Workshop de IA
+│   ├── ai-llm-workshop-v2/  #   ✅ Versão 2.0 do Workshop
+│   └── seu-site/            #   🆕 Seus novos sites aqui
+├── scripts/                 # 🔧 Scripts de automação
+│   ├── setup.sh            #   Configuração inicial
+│   ├── generate-site.sh    #   Geração de sites v2.0
+│   └── post-generate.sh    #   Validação pós-geração
+├── config/                  # ⚙️  Arquivos de configuração
+│   └── project.yml         #   Configuração do projeto
+├── .github/workflows/       # 🚀 Automação CI/CD
+│   └── deploy.yml          #   Deploy para GitHub Pages
+└── .gitignore              # 🚫 Arquivos ignorados pelo Git
 ```
 
-Vercel comments the **preview URL** right on the PR.
+## 🎯 Funcionalidades
 
-***
+- **🎨 Integração com Figma**: Conexão direta com o Figma Dev Mode
+- **🤖 Geração por IA**: Agente MCP cria HTML/CSS/JS semântico
+- **📱 Responsivo**: Design mobile-first responsivo
+- **♿ Acessível**: Compatível com WCAG e HTML semântico
+- **⚡ Performance**: CSS custom properties otimizado e JavaScript vanilla
+- **🚀 Deploy Flexível**: Pronto para qualquer plataforma de hospedagem
+- **🔧 Profissional**: Geração de código pronto para produção
 
-### B) MCP client config (Figma + filesystem)
+## 🔧 Requisitos
 
-`~/.vscode/mcp.json`:
+- **Figma**: Acesso ao Dev Mode e configuração do servidor MCP
+- **Node.js**: Versão 18+ para ferramentas
+- **GitHub**: Repositório com Actions habilitado
+- **Git**: Para controle de versão
 
-```json
-{
-  "mcpServers": {
-    "figma": { "type": "http", "url": "https://mcp.figma.com/mcp" },
-    "filesystem": { "command": "npx", "args": ["@modelcontextprotocol/server-filesystem"] }
-  }
-}
+## 🌐 Sites Gerados
+
+- **🆕 Página de Landing Area**: `sites/area-landing/`
+- **Workshop de IA**: `sites/ai-llm-workshop/`
+- **Workshop de IA v2.0**: `sites/ai-llm-workshop-v2/`
+
+> 💡 **Dica**: Execute `python -m http.server 8000` dentro de qualquer pasta de site para testar localmente
+
+## � Passo a Passo Detalhado
+
+### Primeira Utilização
+
+1. **Abra o terminal e navegue para onde quer clonar o projeto:**
+   ```bash
+   cd C:\Users\SeuUsuario\Desktop\Projetos
+   ```
+
+2. **Clone e entre na pasta:**
+   ```bash
+   git clone https://github.com/TiagoAlvesFernandes-tech/MCP-figma.git
+   cd MCP-figma
+   ```
+
+3. **Torne os scripts executáveis (Linux/Mac):**
+   ```bash
+   chmod +x scripts/*.sh
+   ```
+
+4. **Execute a configuração:**
+   ```bash
+   ./scripts/setup.sh
+   ```
+
+### Gerando um Novo Site
+
+1. **Caminhe para a pasta do projeto:**
+   ```bash
+   cd caminho/para/MCP-figma
+   ```
+
+2. **Execute o gerador:**
+   ```bash
+   ./scripts/generate-site.sh "nome-do-meu-site"
+   ```
+
+3. **O script criará a pasta:**
+   ```
+   sites/nome-do-meu-site/
+   ```
+
+4. **Siga as instruções que aparecerem no terminal**
+
+5. **Após a geração, valide o site:**
+   ```bash
+   ./scripts/post-generate.sh "nome-do-meu-site"
+   ```
+
+6. **Verifique se os arquivos foram criados:**
+   ```bash
+   ls -la sites/nome-do-meu-site/
+   ```
+
+### Fazendo Deploy
+
+1. **Verifique o status do Git:**
+   ```bash
+   git status
+   ```
+
+2. **Adicione todos os arquivos:**
+   ```bash
+   git add .
+   ```
+
+3. **Faça o commit:**
+   ```bash
+   git commit -m "feat: adicionar site nome-do-meu-site"
+   ```
+
+4. **Envie para o GitHub:**
+   ```bash
+   git push origin main
+   ```
+
+5. **Acompanhe o deploy no GitHub:**
+   - Vá para seu repositório no GitHub
+   - Clique na aba "Actions"
+   - Veja o progresso do deploy
+
+6. **Teste seu site localmente:**
+   ```bash
+   cd sites/nome-do-meu-site
+   python -m http.server 8000
+   # Acesse: http://localhost:8000
+   ```
+
+## 🛠️ Comandos Úteis
+
+```bash
+# Ver todos os sites gerados
+ls -la sites/
+
+# Executar servidor local para testar
+cd sites/nome-do-site
+python -m http.server 8000
+
+# Ver logs do Git
+git log --oneline
+
+# Ver diferenças antes do commit
+git diff
+
+# Desfazer último commit (mantendo arquivos)
+git reset --soft HEAD~1
 ```
 
-Figma’s guide covers local vs remote server addresses.
+## 📖 Próximos Passos
 
-***
+Veja [NEXT_STEPS.md](NEXT_STEPS.md) para o roadmap completo para transformar isso em uma plataforma totalmente automatizada.
 
-### C) Figma “Reviewer” plugin (manifest sketch)
+## 🤝 Contribuindo
 
-```json
-{
-  "name": "MCP Landing Reviewer",
-  "id": "mcp-landing-reviewer",
-  "api": "1.0.0",
-  "main": "code.js",
-  "ui": "ui.html",
-  "editorType": ["figma"],
-  "networkAccess": {
-    "allowedDomains": [
-      "https://*.vercel.app",
-      "https://*.netlify.app",
-      "https://your-ci.example.com"
-    ]
-  }
-}
-```
+Esta é uma plataforma open-source para workflows Figma-para-produção. Contribuições são bem-vindas!
 
-(Whitelist your preview host(s) so the UI can embed/fetch the preview.)
+### Como Contribuir
 
-***
+1. **Faça um fork do projeto**
+2. **Crie uma branch para sua feature:**
+   ```bash
+   git checkout -b feature/minha-nova-feature
+   ```
+3. **Faça commit das suas mudanças:**
+   ```bash
+   git commit -m "feat: adicionar nova feature incrível"
+   ```
+4. **Envie para sua branch:**
+   ```bash
+   git push origin feature/minha-nova-feature
+   ```
+5. **Abra um Pull Request**
 
-### D) Prompt seed for regeneration after edits
+---
 
-> “Apply these change notes to the current landing page:
->
-> *   Increase hero heading size to match Figma variable `--font-xl`
-> *   Swap CTA button to ‘primary/filled’ component
-> *   Tighten spacing between features cards to 24px\
->     Regenerate `index.html` and `styles.css`, preserving existing IDs used by analytics. Commit to branch `feat/landing‑rev2`.”
-
-The agent uses MCP to re‑read the frame and variables before regenerating.
-
-***
-
-## Security & governance notes
-
-*   **Rate limits & beta status**: Figma MCP server is in **open beta**; expect changes and define fallbacks.
-*   **Principle of least privilege**: Keep your plugin’s `allowedDomains` tight; do not expose secrets in client UI.
-*   **No Figma Sites publishing**: your live site is hosted on Vercel/Netlify (or any host that supports CI).
-
-***
-
-## What you’ll be able to do with this pipeline
-
-*   Designer works in Figma templates; your agent **generates code from the selected frame** via MCP.
-*   Every iteration produces a **Preview URL** for review and QA; your Figma plugin surfaces the preview and allows approve/reject with notes.
-*   On approval, merge → **Production** with atomic deploy/rollback.
-
-***
-
-## Want me to scaffold the repo + a basic Figma Reviewer plugin?
-
-If you want, I can generate a starter:
-
-*   `/site/index.html`, `styles.css`
-*   `vercel.json` (or `netlify.toml`) for preview/production
-*   A minimal plugin (`manifest.json`, `ui.html`, `code.js`) that loads the preview URL, shows “Request edits” / “Approve”, and posts back to a tiny Node endpoint that triggers the merge/deploy.
-
-Say the word, and tell me your preferred host (**Vercel** or **Netlify**) and the stack (**vanilla CSS** vs **Tailwind CDN**).
+Construído com ❤️ por [Tiago Fernandes](https://github.com/TiagoAlvesFernandes-tech)
