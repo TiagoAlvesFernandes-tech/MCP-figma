@@ -1,0 +1,38 @@
+🤖 FIGMA MCP SITE GENERATION REQUEST
+
+CRITICAL: Generate files in the CURRENT WORKING DIRECTORY
+Working Directory: /c/Users/tiago.fernades/Desktop/Estudo/MCP-figma/sites/teste
+Site Name: teste
+Figma Frame: Use currently selected frame
+
+REQUIREMENTS:
+1. 🎯 Generate ALL files in the current directory (NOT workspace root!)
+2. 📁 Use relative paths for assets: ./assets/filename.ext
+3. 🌐 Create a complete, production-ready website
+4. ♿ Ensure accessibility (semantic HTML, ARIA labels)
+5. 📱 Mobile-first responsive design
+6. ⚡ Performance optimized (CSS custom properties, efficient JS)
+7. 🖼️ **AUTOMATICALLY DOWNLOAD ALL IMAGES** from Figma to ./assets/ folder
+
+FILES TO CREATE:
+- index.html (semantic HTML5 structure)
+- styles.css (CSS with custom properties)
+- script.js (vanilla JavaScript)
+- README.md (site documentation)
+
+IMAGE HANDLING:
+- **DOWNLOAD ALL FIGMA IMAGES** automatically to ./assets/ folder
+- Use descriptive filenames (e.g., hero-image.png, logo.svg, icon-feature.png)
+- Update HTML/CSS to use local paths: ./assets/filename.ext
+- Support common formats: PNG, JPG, SVG, WebP
+- Optimize images for web (compress if needed)
+
+DESIGN REQUIREMENTS:
+- Use semantic HTML5 elements
+- CSS custom properties for design tokens
+- Vanilla JavaScript (no frameworks)
+- Mobile-first responsive breakpoints
+- Accessibility best practices
+- Performance optimizations
+
+**IMPORTANT**: Please read the selected Figma frame, download all images to ./assets/, and generate a complete landing page with local image references now.

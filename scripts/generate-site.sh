@@ -100,7 +100,7 @@ get_generation_prompt() {
 🤖 FIGMA MCP SITE GENERATION REQUEST
 
 CRITICAL: Generate files in the CURRENT WORKING DIRECTORY
-Working Directory: $(cd "$SITE_DIR" && pwd)
+Working Directory: $(realpath "$SITE_DIR")
 Site Name: $SITE_NAME
 Figma Frame: ${FIGMA_FRAME:-"Use currently selected frame"}
 
@@ -111,12 +111,20 @@ REQUIREMENTS:
 4. ♿ Ensure accessibility (semantic HTML, ARIA labels)
 5. 📱 Mobile-first responsive design
 6. ⚡ Performance optimized (CSS custom properties, efficient JS)
+7. 🖼️ **AUTOMATICALLY DOWNLOAD ALL IMAGES** from Figma to ./assets/ folder
 
 FILES TO CREATE:
 - index.html (semantic HTML5 structure)
 - styles.css (CSS with custom properties)
 - script.js (vanilla JavaScript)
 - README.md (site documentation)
+
+IMAGE HANDLING:
+- **DOWNLOAD ALL FIGMA IMAGES** automatically to ./assets/ folder
+- Use descriptive filenames (e.g., hero-image.png, logo.svg, icon-feature.png)
+- Update HTML/CSS to use local paths: ./assets/filename.ext
+- Support common formats: PNG, JPG, SVG, WebP
+- Optimize images for web (compress if needed)
 
 DESIGN REQUIREMENTS:
 - Use semantic HTML5 elements
@@ -126,7 +134,7 @@ DESIGN REQUIREMENTS:
 - Accessibility best practices
 - Performance optimizations
 
-Please read the selected Figma frame and generate a complete landing page now.
+**IMPORTANT**: Please read the selected Figma frame, download all images to ./assets/, and generate a complete landing page with local image references now.
 PROMPTEOF
 }
 
@@ -156,10 +164,6 @@ show_mcp_instructions() {
 main() {
     validate_setup
     create_site_structure
-    
-    # Mudar para o diretório do site
-    cd "$SITE_DIR"
-    
     show_mcp_instructions
     
     log_success "🎉 Estrutura preparada para: $SITE_NAME"
