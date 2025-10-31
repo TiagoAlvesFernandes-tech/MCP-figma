@@ -19,23 +19,23 @@ jobs:
         id: collect
         run: |
           set -e
-          if [ ! -d "sites" ]; then
-            echo "matrix=[]" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+          [ -d sites ] || { echo "matrix=[]" >> $GITHUB_OUTPUT; exit 0; }
           arr="[]"
-          # Monta lista de sites com deploy=true
-          arr=$(jq -n '[]')
           for d in $(ls -1 sites); do
             cfg="sites/$d/site-config.json"
             [ -f "$cfg" ] || continue
-            deploy=$(jq -r '.deploy // "true"' "$cfg")
+            deploy=$(jq -r '.deploy' "$cfg")
             name=$(jq -r '.name // "'"$d"'"' "$cfg")
-            [ "$deploy" = "true" ] || continue
+            # Se deploy não for true, pula
+            if [ "$deploy" != "true" ] && [ "$deploy" != "True" ] && [ "$deploy" != "TRUE" ]; then
+              echo "Skip $name (deploy=false)"
+              continue
+            fi
             arr=$(echo "$arr" | jq --arg n "$name" '. + [$n]')
           done
-          echo "Matriz final: $arr"
-          echo "matrix=$arr" >> "$GITHUB_OUTPUT"
+          compact=$(echo "$arr" | jq -c '.')
+          echo "matrix=$compact" >> $GITHUB_OUTPUT
+          echo "Final matrix: $compact"
 
   deploy:
     needs: discover
@@ -54,7 +54,6 @@ jobs:
         run: |
           RAW="${{ matrix.site }}"
           SANITIZED=$(echo "$RAW" | tr '[:lower:]' '[:upper:]' | tr '-' '_' )
-            # Ex: workshop-ia -> WORKSHOP_IA
           echo "secret_name=AZURE_STATIC_WEB_APPS_API_TOKEN_${SANITIZED}" >> $GITHUB_OUTPUT
           echo "Using secret: AZURE_STATIC_WEB_APPS_API_TOKEN_${SANITIZED}"
 
@@ -62,11 +61,9 @@ jobs:
         id: prepare
         run: |
           PUBLISH="sites/${{ matrix.site }}"
-          if [ ! -f "$PUBLISH/index.html" ]; then
-            echo "Erro: index.html não encontrado em $PUBLISH" >&2
-            exit 1
-          fi
+          [ -f "$PUBLISH/index.html" ] || { echo "index.html ausente em $PUBLISH" >&2; exit 1; }
           echo "publish_dir=$PUBLISH" >> $GITHUB_OUTPUT
+          echo "Publish dir: $PUBLISH"
 
       - name: Deploy (${{ matrix.site }})
         uses: Azure/static-web-apps-deploy@v1
