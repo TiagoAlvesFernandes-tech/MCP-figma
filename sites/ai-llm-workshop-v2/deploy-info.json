@@ -1,0 +1,10 @@
+{
+    "site_name": "ai-llm-workshop-v2",
+    "generated_at": "2025-10-09T10:42:58-03:00",
+    "validation_passed": true,
+    "issues_count": 0,
+    "warnings_count": 0,
+    "ready_for_deploy": true,
+    "deploy_url": "https://ai-llm-workshop-v2.azurestaticapps.net",
+    "validation_version": "2.0"
+}
