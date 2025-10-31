@@ -23,25 +23,19 @@ jobs:
             echo "matrix=[]" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-
-          entries=""
-          sep=""
-          for dir in $(ls -1 sites); do
-            if [ ! -d "sites/$dir" ]; then
-              continue
-            fi
-
-            config="sites/$dir/site-config.json"
-            if [ -f "$config" ]; then
-              deploy=$(jq -r '.deploy // "true"' "$config")
-              if [ "$deploy" = "true" ]; then
-                entries="${entries}${sep}\"$dir\""
-                sep=",";
-              fi
-            fi
+          arr="[]"
+          # Monta lista de sites com deploy=true
+          arr=$(jq -n '[]')
+          for d in $(ls -1 sites); do
+            cfg="sites/$d/site-config.json"
+            [ -f "$cfg" ] || continue
+            deploy=$(jq -r '.deploy // "true"' "$cfg")
+            name=$(jq -r '.name // "'"$d"'"' "$cfg")
+            [ "$deploy" = "true" ] || continue
+            arr=$(echo "$arr" | jq --arg n "$name" '. + [$n]')
           done
-
-          echo "matrix=[${entries}]" >> "$GITHUB_OUTPUT"
+          echo "Matriz final: $arr"
+          echo "matrix=$arr" >> "$GITHUB_OUTPUT"
 
   deploy:
     needs: discover
@@ -55,31 +49,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare static assets
+      - name: Derive secret name
+        id: secret
+        run: |
+          RAW="${{ matrix.site }}"
+          SANITIZED=$(echo "$RAW" | tr '[:lower:]' '[:upper:]' | tr '-' '_' )
+            # Ex: workshop-ia -> WORKSHOP_IA
+          echo "secret_name=AZURE_STATIC_WEB_APPS_API_TOKEN_${SANITIZED}" >> $GITHUB_OUTPUT
+          echo "Using secret: AZURE_STATIC_WEB_APPS_API_TOKEN_${SANITIZED}"
+
+      - name: Prepare publish dir
         id: prepare
         run: |
-          set -e
-          site="${{ matrix.site }}"
-          source_dir="sites/${site}"
-          publish_dir="dist/${site}"
-
-          if [ ! -d "$source_dir" ]; then
-            echo "Site directory $source_dir not found" >&2
+          PUBLISH="sites/${{ matrix.site }}"
+          if [ ! -f "$PUBLISH/index.html" ]; then
+            echo "Erro: index.html não encontrado em $PUBLISH" >&2
             exit 1
           fi
-
-          rm -rf "$publish_dir"
-          mkdir -p "$publish_dir"
-          cp -R "$source_dir"/. "$publish_dir"
-
-          rm -rf "$publish_dir/docs"
-          rm -f "$publish_dir/mcp-prompt.txt" "$publish_dir/site-config.json"
-
-          echo "publish_dir=$publish_dir" >> "$GITHUB_OUTPUT"
+          echo "publish_dir=$PUBLISH" >> $GITHUB_OUTPUT
 
       - name: Deploy (${{ matrix.site }})
         uses: Azure/static-web-apps-deploy@v1
         with:
           app_location: ${{ steps.prepare.outputs.publish_dir }}
           skip_api_build: true
-          azure_static_web_apps_api_token: ${{ secrets[ format('AZURE_STATIC_WEB_APPS_API_TOKEN_{0}', replace(toUpper(matrix.site), '-', '_')) ] }}
+          azure_static_web_apps_api_token: ${{ secrets[steps.secret.outputs.secret_name] }}
