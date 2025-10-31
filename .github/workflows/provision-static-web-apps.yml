@@ -44,7 +44,7 @@ jobs:
       - name: Provision SWAs and set secrets
         env:
           RG: ctl-digital-pages
-          LOCATION: eastus
+          LOCATION: eastus2
           GITHUB_REPO: ${{ github.repository }}
         run: |
           set -e
