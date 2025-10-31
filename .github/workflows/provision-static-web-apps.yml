@@ -21,12 +21,14 @@ jobs:
           gh --version
 
       - name: Azure Login (Service Principal)
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        run: |
+          az login --service-principal \
+            -u "${{ secrets.AZURE_CLIENT_ID }}" \
+            -p "${{ secrets.AZURE_CLIENT_SECRET }}" \
+            --tenant "${{ secrets.AZURE_TENANT_ID }}"
+          az account set --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          az account show -o table
+
       - name: Ensure Static Web Apps extension
         run: |
           az extension add --name staticwebapp || echo "Extension already installed"
@@ -34,7 +36,7 @@ jobs:
 
       - name: GitHub CLI Auth
         env:
-          GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+            GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           echo "$GH_TOKEN" | gh auth login --with-token
           gh auth status
