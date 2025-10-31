@@ -48,30 +48,21 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
         run: |
           set -e
-          created_any=false
           for d in $(ls -1 sites); do
             cfg="sites/$d/site-config.json"
-            if [ ! -f "$cfg" ]; then
-              echo "Skip $d (missing site-config.json)"; continue
-            fi
+            [ -f "$cfg" ] || { echo "Skip $d (missing site-config.json)"; continue; }
             deploy=$(jq -r '.deploy // "true"' "$cfg")
             name=$(jq -r '.name // "'"$d"'"' "$cfg")
-            if [ "$deploy" != "true" ]; then
-              echo "Skip $name (deploy=false)"; continue
-            fi
+            [ "$deploy" = "true" ] || { echo "Skip $name (deploy=false)"; continue; }
             swa_name="mcp-${name}-prod"
-            exists=$(az staticwebapp list --query "[?name=='$swa_name'] | length(@)")
-            if [ "$exists" = "0" ]; then
+            if ! az staticwebapp list --query "[?name=='$swa_name']" -o tsv | grep -q . ; then
               echo "Creating SWA: $swa_name"
               az staticwebapp create \
                 --name "$swa_name" \
                 --resource-group "$RG" \
                 --location "$LOCATION" \
                 --sku Free \
-                --app-location "sites/$d" \
-                --skip-app-build true \
                 --tags site="$name" env=prod owner=automation
-              created_any=true
             else
               echo "SWA already exists: $swa_name"
             fi
