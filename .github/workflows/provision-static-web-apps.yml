@@ -39,15 +39,17 @@ jobs:
           GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           gh --version
-          # Confirma token (não interrompe se só informa)
-          gh auth status || echo "Usando GH_TOKEN para operações"
+          gh auth status || echo "Usando GH_TOKEN (PAT) para operações"
+
       - name: Provision SWAs and set secrets
         env:
           RG: ctl-digital-pages
           LOCATION: eastus2
           GITHUB_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           set -e
+          created_any=false
           for d in $(ls -1 sites); do
             cfg="sites/$d/site-config.json"
             [ -f "$cfg" ] || { echo "Skip $d (missing site-config.json)"; continue; }
@@ -55,7 +57,8 @@ jobs:
             name=$(jq -r '.name // "'"$d"'"' "$cfg")
             [ "$deploy" = "true" ] || { echo "Skip $name (deploy=false)"; continue; }
             swa_name="mcp-${name}-prod"
-            if ! az staticwebapp list --query "[?name=='$swa_name']" -o tsv | grep -q . ; then
+            exists=$(az staticwebapp list --query "[?name=='$swa_name'] | length(@)")
+            if [ "$exists" = "0" ]; then
               echo "Creating SWA: $swa_name"
               az staticwebapp create \
                 --name "$swa_name" \
@@ -63,12 +66,14 @@ jobs:
                 --location "$LOCATION" \
                 --sku Free \
                 --tags site="$name" env=prod owner=automation
+              created_any=true
             else
               echo "SWA already exists: $swa_name"
             fi
             token=$(az staticwebapp secrets list --name "$swa_name" --resource-group "$RG" --query "properties.apiKey" -o tsv)
             sanitized=$(echo "${name^^}" | tr '-' '_' )
             secret_name="AZURE_STATIC_WEB_APPS_API_TOKEN_${sanitized}"
+            # Usa GH_TOKEN para criar/atualizar secret (necessário escopos repo + read:org + workflow)
             echo "$token" | gh secret set "$secret_name" --repo "$GITHUB_REPO" --app actions
             echo "Updated secret: $secret_name"
           done
