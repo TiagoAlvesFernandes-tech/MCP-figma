@@ -24,12 +24,13 @@ jobs:
           for d in $(ls -1 sites); do
             cfg="sites/$d/site-config.json"
             [ -f "$cfg" ] || continue
-            deploy=$(jq -r '.deploy // "true"' "$cfg")
+            # força string para comparar
+            deploy=$(jq -r '.deploy | tostring' "$cfg")
             name=$(jq -r '.name // "'"$d"'"' "$cfg")
-            if [ "$deploy" = "true" ] || [ "$deploy" = "True" ] || [ "$deploy" = "TRUE" ]; then
+            if [ "$deploy" = "true" ]; then
               arr=$(echo "$arr" | jq --arg n "$name" '. + [$n]')
             else
-              echo "Skip $name (deploy=false)"
+              echo "Skip $name (deploy=$deploy)"
             fi
           done
           compact=$(echo "$arr" | jq -c '.')
@@ -59,14 +60,15 @@ jobs:
       - name: Validate site contents
         run: |
           P="sites/${{ matrix.site }}"
-          [ -d "$P" ] || { echo "Diretório ausente: $P"; exit 1; }
+          [ -d "$P" ] || { echo "Dir ausente: $P"; exit 1; }
           [ -f "$P/index.html" ] || { echo "index.html ausente em $P"; ls -R "$P"; exit 1; }
-          echo "index.html encontrado em $P"
-          ls -1 "$P"
+          echo "OK: $P/index.html"
+          find "$P" -maxdepth 2 -type f -name "*.html"
 
       - name: Deploy (${{ matrix.site }})
         uses: Azure/static-web-apps-deploy@v1
         with:
+          action: upload
           app_location: sites/${{ matrix.site }}
           skip_api_build: true
           azure_static_web_apps_api_token: ${{ secrets[steps.secret.outputs.secret_name] }}
