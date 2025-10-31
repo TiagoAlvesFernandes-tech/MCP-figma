@@ -1,0 +1,41 @@
+# Figma-to-Production Platform Configuration
+project:
+  name: "MCP-figma"
+  version: "2.0.0"
+  description: "Professional website generation from Figma designs using AI"
+
+# MCP Server Configuration
+mcp:
+  endpoint: "localhost:3845"
+  timeout: 30
+  health_check_enabled: true
+
+# Site Generation Settings
+generation:
+  default_template: "landing-page"
+  assets_folder: "assets"
+  create_readme: true
+  
+# Deployment Settings
+deployment:
+  provider: "azure-static-web-apps"
+  auto_deploy: true
+  github_actions: true
+
+# Asset Management
+assets:
+  download_timeout: 30
+  supported_formats:
+    - png
+    - jpg
+    - jpeg
+    - svg
+    - gif
+    - webp
+  
+# Quality Standards
+quality:
+  accessibility: true
+  responsive: true
+  performance_optimized: true
+  semantic_html: true
