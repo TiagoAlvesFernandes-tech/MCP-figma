@@ -34,17 +34,18 @@ jobs:
           az extension add --name staticwebapp || echo "Extension already installed"
           az extension list -o table | grep static
 
-      - name: GitHub CLI Auth
+      - name: GitHub CLI setup
         env:
-            GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+          GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
-          echo "$GH_TOKEN" | gh auth login --with-token
-          gh auth status
-
+          gh --version
+          # Confirma token (não interrompe se só informa)
+          gh auth status || echo "Usando GH_TOKEN para operações"
       - name: Provision SWAs and set secrets
         env:
           RG: ctl-digital-pages
           LOCATION: eastus
+          GITHUB_REPO: ${{ github.repository }}
         run: |
           set -e
           created_any=false
@@ -75,8 +76,9 @@ jobs:
               echo "SWA already exists: $swa_name"
             fi
             token=$(az staticwebapp secrets list --name "$swa_name" --resource-group "$RG" --query "properties.apiKey" -o tsv)
-            secret_name="AZURE_STATIC_WEB_APPS_API_TOKEN_${name^^}"
-            echo "$token" | gh secret set "$secret_name" --repo ${{ github.repository }}
+            sanitized=$(echo "${name^^}" | tr '-' '_' )
+            secret_name="AZURE_STATIC_WEB_APPS_API_TOKEN_${sanitized}"
+            echo "$token" | gh secret set "$secret_name" --repo "$GITHUB_REPO" --app actions
             echo "Updated secret: $secret_name"
           done
           if [ "$created_any" = true ]; then
