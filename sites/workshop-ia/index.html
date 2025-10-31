@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Workshop prático para escolher o modelo de IA ideal, reduzir custos e criar aplicações rentáveis com decisões técnicas seguras.">
+  <title>Workshop IA | Como Escolher o Modelo Certo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./script.js"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="hero" id="inicio">
+      <nav class="hero__logos" aria-label="Ecossistema de IA representado no workshop">
+        <ul>
+          <li><img src="./assets/logo-gemini.png" alt="Google Gemini" loading="lazy"></li>
+          <li><img src="./assets/logo-gpt.png" alt="OpenAI GPT" loading="lazy"></li>
+          <li><img src="./assets/logo-manus.png" alt="Manus" loading="lazy"></li>
+          <li><img src="./assets/logo-grok.png" alt="Grok" loading="lazy"></li>
+          <li><img src="./assets/logo-deepseek.png" alt="DeepSeek" loading="lazy"></li>
+          <li><img src="./assets/logo-meta.png" alt="Meta" loading="lazy"></li>
+          <li><img src="./assets/logo-iii.png" alt="Inflection" loading="lazy"></li>
+        </ul>
+      </nav>
+      <div class="hero__content">
+        <p class="badge badge--primary">Sábado, 18/10 às 09h</p>
+        <h1>O futuro do seu projeto de IA é uma <span class="text-highlight">bomba-relógio</span> prestes a explodir</h1>
+        <p class="hero__lead">A maioria dos projetos <strong>custa muito mais</strong> do que o necessário por usar o modelo errado. Eu vou te mostrar <strong>na prática</strong> como calcular o custo real vs. ideal e tomar a decisão que garanta a saúde financeira da sua aplicação.</p>
+        <a class="button button--primary" href="https://payment.ticto.app/OF6CA9F23" data-track="cta-inscricao">Garantir minha vaga</a>
+      </div>
+      <div class="hero__timeline" aria-label="Ciclo típico de um projeto mal planejado">
+        <div class="timeline__item" role="listitem">
+          <span class="timeline__icon"><img src="./assets/icon-check.svg" alt="Projeto implementado"></span>
+          <span class="timeline__label">Implementou</span>
+        </div>
+        <div class="timeline__separator" aria-hidden="true">
+          <img src="./assets/icon-arrow-right.svg" alt="" role="presentation">
+        </div>
+        <div class="timeline__item" role="listitem">
+          <span class="timeline__icon"><img src="./assets/icon-gear.svg" alt="Funcionalidade"></span>
+          <span class="timeline__label">Funcionou</span>
+        </div>
+        <div class="timeline__separator" aria-hidden="true">
+          <img src="./assets/icon-arrow-right.svg" alt="" role="presentation">
+        </div>
+        <div class="timeline__item" role="listitem">
+          <span class="timeline__icon"><img src="./assets/icon-celebrate.svg" alt="Equipe comemorando"></span>
+          <span class="timeline__label">Todos comemoraram</span>
+        </div>
+        <div class="timeline__separator" aria-hidden="true">
+          <img src="./assets/icon-arrow-right.svg" alt="" role="presentation">
+        </div>
+        <div class="timeline__item timeline__item--alert" role="listitem">
+          <span class="timeline__icon"><img src="./assets/icon-warning.svg" alt="Alerta crítico"></span>
+          <span class="timeline__label">E agora, o pesadelo começa</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section--diagnosis" id="diagnostico">
+        <div class="section__intro">
+          <p class="badge badge--alert">Alerta Crítico</p>
+          <h2>Ineficiência, Erros e Altos Custos</h2>
+          <p class="section__description"><strong>O que deu errado?</strong> A PoC foi um sucesso e o protótipo impecável. Mas quando o projeto foi para o mundo real, <strong>tudo desmoronou.</strong></p>
+        </div>
+        <div class="diagnosis">
+          <div class="diagnosis__cards">
+            <article class="info-card">
+              <img src="./assets/icon-budget.svg" alt="Ícone de orçamento" class="info-card__icon" loading="lazy">
+              <h3>Custos Imprevisíveis</h3>
+              <p>O orçamento vira uma roleta-russa. Cada nova requisição consome tokens de forma diferente e não entrega nenhuma previsibilidade.</p>
+            </article>
+            <article class="info-card">
+              <img src="./assets/icon-scale.svg" alt="Ícone de escala" class="info-card__icon" loading="lazy">
+              <h3>Escalabilidade Quebrada</h3>
+              <p>O que parecia bem para 10 usuários em teste simplesmente quebra ao atingir o pico. A arquitetura não escala e a performance morre.</p>
+            </article>
+            <article class="info-card">
+              <img src="./assets/icon-accuracy.svg" alt="Ícone de precisão" class="info-card__icon" loading="lazy">
+              <h3>Pesadelo de Previsibilidade e Acurácia</h3>
+              <p>A IA alucina, falha em tarefas simples, entrega respostas erradas e gera mais problemas do que soluções.</p>
+            </article>
+          </div>
+          <aside class="cost-panel" aria-label="Painel de custos do projeto">
+            <div class="cost-panel__row" style="--progress: 18">
+              <div class="cost-panel__labels">
+                <span class="cost-panel__tag">Dia 1</span>
+                <span class="cost-panel__value cost-panel__value--green">R$ 573</span>
+              </div>
+              <div class="cost-panel__progress" aria-hidden="true"><span></span></div>
+            </div>
+            <div class="cost-panel__row" style="--progress: 48">
+              <div class="cost-panel__labels">
+                <span class="cost-panel__tag">Segundo dia</span>
+                <span class="cost-panel__value cost-panel__value--amber">R$ 3.207</span>
+              </div>
+              <div class="cost-panel__progress" aria-hidden="true"><span></span></div>
+            </div>
+            <div class="cost-panel__row" style="--progress: 100">
+              <div class="cost-panel__labels">
+                <span class="cost-panel__tag">Mês 1</span>
+                <span class="cost-panel__value cost-panel__value--red">R$ 90.604</span>
+              </div>
+              <div class="cost-panel__progress" aria-hidden="true"><span></span></div>
+            </div>
+            <div class="cost-panel__status" role="status">Status do Projeto = <strong>INVIÁVEL</strong></div>
+          </aside>
+        </div>
+        <figure class="diagnosis__visual">
+          <img src="./assets/visual-bomba.png" alt="Ilustração de bomba digital prestes a explodir" loading="lazy">
+        </figure>
+      </section>
+
+      <section class="section section--modules" id="protocolo">
+        <div class="section__intro">
+          <h2>O Protocolo Para Desarmar a Bomba</h2>
+          <p class="section__description">Seis passos práticos que ensinam a escolher, implementar e escalar projetos de IA previsíveis e lucrativos.</p>
+        </div>
+        <div class="modules-grid">
+          <article class="module-card" style="--card-image: url('./assets/card-erro-fatal.png');">
+            <span class="module-card__step" aria-hidden="true">1</span>
+            <h3>Erro Fatal</h3>
+            <p>Os erros mais comuns que podem destruir seu projeto de IA e como evitá-los.</p>
+          </article>
+          <article class="module-card" style="--card-image: url('./assets/card-cenario-llms.png');">
+            <span class="module-card__step" aria-hidden="true">2</span>
+            <h3>Cenário Atual das LLMs</h3>
+            <p>Entenda o panorama dos modelos de linguagem e da multimodalidade: quando usar, qual usar e por quê.</p>
+          </article>
+          <article class="module-card" style="--card-image: url('./assets/card-custo-real.png');">
+            <span class="module-card__step" aria-hidden="true">3</span>
+            <h3>Decodificando o Custo Real</h3>
+            <p>Aprenda a calcular com clareza o custo de um projeto de IA antes de levá-lo para produção.</p>
+          </article>
+          <article class="module-card" style="--card-image: url('./assets/card-benchmarks.png');">
+            <span class="module-card__step" aria-hidden="true">4</span>
+            <h3>Benchmarks na Prática</h3>
+            <p>Avalie performance e eficiência com métricas que importam, deixando de lado números de vaidade.</p>
+          </article>
+          <article class="module-card" style="--card-image: url('./assets/card-visao-arquitetura.png');">
+            <span class="module-card__step" aria-hidden="true">5</span>
+            <h3>Visão de Arquitetura</h3>
+            <p>Grok 4, Gemini, GPT, Claude e Llama 3 comparados com foco em custo e benefício reais.</p>
+          </article>
+          <article class="module-card" style="--card-image: url('./assets/card-escolha-certa.png');">
+            <span class="module-card__step" aria-hidden="true">6</span>
+            <h3>Fazendo a Escolha Certa</h3>
+            <p>Construa uma tomada de decisão segura para garantir ROI e estabilidade no longo prazo.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section--mentor" id="mentor">
+        <div class="section__intro">
+          <h2>Quem é Jorge Maia?</h2>
+        </div>
+        <div class="mentor-card">
+          <figure class="mentor-card__media">
+            <img src="./assets/mentor-jorge-maia.png" alt="Foto de Jorge Maia" loading="lazy">
+          </figure>
+          <div class="mentor-card__content">
+            <p class="mentor-card__subtitle">Arquiteto de Software &amp; Microsoft MVP</p>
+            <ul>
+              <li><strong>+15 anos</strong> desenvolvendo soluções de IA e ML em escala para empresas Fortune 500.</li>
+              <li>Microsoft MVP em Developer Technologies e especialista em Azure AI.</li>
+              <li>Já treinou mais de <strong>10.000 desenvolvedores</strong> em tecnologias de ponta.</li>
+              <li>Palestrante internacional e mentor de startups de IA.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--offer" id="oferta">
+        <div class="offer-card">
+          <p class="badge badge--primary">Oferta Especial</p>
+          <h2>Workshop &mdash; Como Escolher o Modelo Certo de IA</h2>
+          <div class="offer-card__pricing" aria-label="Investimento do workshop">
+            <p class="offer-card__from">de R$ 297</p>
+            <p class="offer-card__price">por <span>R$ 127</span></p>
+          </div>
+          <div class="offer-card__details">
+            <div class="detail-item">
+              <img src="./assets/icon-calendar.svg" alt="Ícone de calendário" loading="lazy">
+              <span>Sábado, 18/10 às 09h</span>
+            </div>
+            <div class="detail-item">
+              <img src="./assets/icon-payment.svg" alt="Opções de pagamento" loading="lazy">
+              <span>Pix, boleto ou cartão</span>
+            </div>
+          </div>
+          <a class="button button--primary" href="https://payment.ticto.app/OF6CA9F23" data-track="cta-inscricao">Inscrever-se agora</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Labinar IA 2025</p>
+      <p class="site-footer__legal">© 2025 CrazyTechLabs. Todos os direitos reservados.</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+name: Provision Static Web Apps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq wget
+          wget https://github.com/cli/cli/releases/download/v2.53.0/gh_2.53.0_linux_amd64.deb
+          sudo dpkg -i gh_2.53.0_linux_amd64.deb || true
+          gh --version
+
+      - name: Azure Login (Service Principal)
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Ensure Static Web Apps extension
+        run: |
+          az extension add --name staticwebapp || echo "Extension already installed"
+          az extension list -o table | grep static
+
+      - name: GitHub CLI Auth
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
+          gh auth status
+
+      - name: Provision SWAs and set secrets
+        env:
+          RG: ctl-digital-pages
+          LOCATION: eastus
+        run: |
+          set -e
+          created_any=false
+          for d in $(ls -1 sites); do
+            cfg="sites/$d/site-config.json"
+            if [ ! -f "$cfg" ]; then
+              echo "Skip $d (missing site-config.json)"; continue
+            fi
+            deploy=$(jq -r '.deploy // "true"' "$cfg")
+            name=$(jq -r '.name // "'"$d"'"' "$cfg")
+            if [ "$deploy" != "true" ]; then
+              echo "Skip $name (deploy=false)"; continue
+            fi
+            swa_name="mcp-${name}-prod"
+            exists=$(az staticwebapp list --query "[?name=='$swa_name'] | length(@)")
+            if [ "$exists" = "0" ]; then
+              echo "Creating SWA: $swa_name"
+              az staticwebapp create \
+                --name "$swa_name" \
+                --resource-group "$RG" \
+                --location "$LOCATION" \
+                --sku Free \
+                --app-location "sites/$d" \
+                --skip-app-build true \
+                --tags site="$name" env=prod owner=automation
+              created_any=true
+            else
+              echo "SWA already exists: $swa_name"
+            fi
+            token=$(az staticwebapp secrets list --name "$swa_name" --resource-group "$RG" --query "properties.apiKey" -o tsv)
+            secret_name="AZURE_STATIC_WEB_APPS_API_TOKEN_${name^^}"
+            echo "$token" | gh secret set "$secret_name" --repo ${{ github.repository }}
+            echo "Updated secret: $secret_name"
+          done
+          if [ "$created_any" = true ]; then
+            echo "New SWAs created. Run Deploy Sites workflow to publish content."
+          else
+            echo "No new SWAs needed. Secrets refreshed."
+          fi

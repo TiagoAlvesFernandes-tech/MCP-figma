@@ -87,6 +87,7 @@ create_site_structure() {
     "created": "$(date -Iseconds)",
     "figma_frame": "$FIGMA_FRAME",
     "status": "generating",
+    "deploy": true,
     "version": "2.0"
 }
 CONFIGEOF

@@ -1,0 +1,43 @@
+/* Background Fix - Add these styles at the beginning */
+body {
+  font-family: var(--font-primary);
+  line-height: 1.6;
+  color: var(--color-text-white);
+  background-color: var(--color-primary-dark);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Global background that covers entire page */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./assets/background-frame.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -10;
+  opacity: 0.8;
+}
+
+/* Additional overlay for digital architecture */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./assets/digital-build-destroyed.png');
+  background-size: contain;
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: -9;
+  opacity: 0.3;
+}
